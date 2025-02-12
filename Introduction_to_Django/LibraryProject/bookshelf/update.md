@@ -1,9 +1,9 @@
 # Updating the title
->>> x = Book.objects.all()[0]
->>> x.title
+>>> book = Book.objects.all()[0]
+>>> book.title
 '1984'
->>> x.title = "Nineteen Eighty-Four"
->>> x.save()
+>>> book.title = "Nineteen Eighty-Four"
+>>> book.save()
 >>> Book.objects.all().values()
 <QuerySet [{'id': 1, 'title': 'Nineteen Eighty-Four', 'author': 'George Orwell', 'publication_year': 1949}]>
 >>>
