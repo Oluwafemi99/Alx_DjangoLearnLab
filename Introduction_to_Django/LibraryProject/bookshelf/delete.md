@@ -1,3 +1,4 @@
+from bookshelf.models import Book
 # Deleting the Book created and confirming the removal
 
 >>> book = Book.objects.all()[0]      
