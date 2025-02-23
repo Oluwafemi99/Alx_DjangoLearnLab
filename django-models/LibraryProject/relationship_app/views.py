@@ -13,6 +13,8 @@ from django.views.generic import CreateView
 from django.contrib.auth import login
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.decorators import user_passes_test
+from django.utils.decorators import method_decorator
 
 # Create a function-based view
 
@@ -49,22 +51,16 @@ class SignUpView(CreateView):
     template_name = 'relationship_app/register.html'
 
 
-class AdminView(UserPassesTestMixin, TemplateView):
+@method_decorator(user_passes_test(lambda u: u.userprofile.role == 'Admin'), name='dispatch')
+class AdminView(TemplateView):
     template_name = 'relationship_app/admin_view.html'
 
-    def test_func(self):
-        return self.request.user.userprofile.role == 'Admin'
 
-
-class LibrarianView(UserPassesTestMixin, TemplateView):
+@method_decorator(user_passes_test(lambda u: u.userprofile.role == 'Librarian'), name='dispatch')
+class LibrarianView(TemplateView):
     template_name = 'relationship_app/librarian_view.html'
 
-    def test_func(self):
-        return self.request.user.userprofile.role == 'Librarian'
 
-
-class MemberView(UserPassesTestMixin, TemplateView):
+@method_decorator(user_passes_test(lambda u: u.userprofile.role == 'Member'), name='dispatch')
+class MemberView(TemplateView):
     template_name = 'relationship_app/member_view.html'
-
-    def test_func(self):
-        return self.request.user.userprofile.role == 'Member'
