@@ -10,19 +10,23 @@ from django.contrib.auth.views import LogoutView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.contrib.auth import login
 
 # Create a function-based view
+
 
 def list_books(request):
     books = Book.objects.all()
     context = {'book_list': books}
     return render(request, 'relationship_app/list_books.html', context)
 
+
 def books(request):
     template = loader.get_template('list_book.html')
     return HttpResponse(template.render())
 
 # class based views
+
 
 class LibraryDetailView(DetailView):
     model = Library
