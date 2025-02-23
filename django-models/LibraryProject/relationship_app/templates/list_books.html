@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>List of Books</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <h1>Books Available:</h1>
@@ -12,5 +13,6 @@
         <li>{{ book.title }} by {{ book.author.name }}</li>
         {% endfor %}
     </ul>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
