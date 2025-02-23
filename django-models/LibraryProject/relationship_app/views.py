@@ -14,7 +14,6 @@ from django.contrib.auth import login
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.decorators import user_passes_test
-from django.utils.decorators import method_decorator
 
 # Create a function-based view
 
@@ -51,16 +50,16 @@ class SignUpView(CreateView):
     template_name = 'relationship_app/register.html'
 
 
-@method_decorator(user_passes_test(lambda u: u.userprofile.role == 'Admin'), name='dispatch')
+@user_passes_test(lambda u: u.userprofile.role == 'Admin')
 class AdminView(TemplateView):
     template_name = 'relationship_app/admin_view.html'
 
 
-@method_decorator(user_passes_test(lambda u: u.userprofile.role == 'Librarian'), name='dispatch')
+@user_passes_test(lambda u: u.userprofile.role == 'Librarian')
 class LibrarianView(TemplateView):
     template_name = 'relationship_app/librarian_view.html'
 
 
-@method_decorator(user_passes_test(lambda u: u.userprofile.role == 'Member'), name='dispatch')
+@user_passes_test(lambda u: u.userprofile.role == 'Member')
 class MemberView(TemplateView):
     template_name = 'relationship_app/member_view.html'
