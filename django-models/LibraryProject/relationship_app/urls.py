@@ -4,9 +4,9 @@ from . import views
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
 from .views import SignUpView
-from .admin_view import AdminView
-from .librarian_view import LibrarianView
-from .member_view import MemberView
+from .views import AdminView
+from .views import LibrarianView
+from .views import MemberView
 
 urlpatterns = [
     path('books/', views.list_books, name='book_list'),
