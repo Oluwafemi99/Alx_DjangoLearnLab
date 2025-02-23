@@ -11,6 +11,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth import login
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 # Create a function-based view
 
@@ -47,8 +49,22 @@ class SignUpView(CreateView):
     template_name = 'relationship_app/register.html'
 
 
-urlpatterns = [
-    path('login/', LoginView.as_view(template_name='registration/register.html'), name='login'),
-    path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'),
-    path('signup/', SignUpView.as_view(template_name='login.html'), name='signup'),
-]
+class AdminView(UserPassesTestMixin, TemplateView):
+    template_name = 'relationship_app/admin_view.html'
+
+    def test_func(self):
+        return self.request.user.userprofile.role == 'Admin'
+
+
+class LibrarianView(UserPassesTestMixin, TemplateView):
+    template_name = 'relationship_app/librarian_view.html'
+
+    def test_func(self):
+        return self.request.user.userprofile.role == 'Librarian'
+
+
+class MemberView(UserPassesTestMixin, TemplateView):
+    template_name = 'relationship_app/member_view.html'
+
+    def test_func(self):
+        return self.request.user.userprofile.role == 'Member'
