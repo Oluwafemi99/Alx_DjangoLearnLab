@@ -34,3 +34,11 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
     objects = CustomUserManager
+
+    class Meta:
+        permissions = [
+            ("can_view" "can view"),
+            ("can_create" "can create"),
+            ("can_edit" "can edit"),
+            ("can_delete" "can delete"),
+        ]
