@@ -1,10 +1,5 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
 
+from .models import UserProfile
 
-class ModelAdmin(UserAdmin):
-    pass
-
-
-admin.site.register(CustomUser, ModelAdmin)
+admin.site.register(UserProfile)
