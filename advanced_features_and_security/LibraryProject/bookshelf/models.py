@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import Group
 # Create your models here.
 
 
@@ -7,6 +8,14 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     publication_year = models.IntegerField()
+
+    class Meta:
+        permissions = [
+            ("can_view", "can view"),
+            ("can_create", "can create"),
+            ("can_edit", "can edit"),
+            ("can_delete", "can delete"),
+        ]
 
 
 class CustomUserManager(BaseUserManager):
@@ -27,18 +36,16 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True)
-    date_of_birth = models.DateField()
-    profile_photo = models.ImageField(upload_to='profile_photos/')
+    date_of_birth = models.DateField(null=True, blank=True)
+    profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
-    objects = CustomUserManager
+    # USERNAME_FIELD = "email"
+    # REQUIRED_FIELDS = []
+    # objects = CustomUserManager
 
-    class Meta:
-        permissions = [
-            ("can_view" "can view"),
-            ("can_create" "can create"),
-            ("can_edit" "can edit"),
-            ("can_delete" "can delete"),
-        ]
+
+class UserGroup(Group):
+    ...
+
+    def __str__(self):
+        return self.name
