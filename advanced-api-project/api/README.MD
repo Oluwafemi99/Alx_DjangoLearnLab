@@ -1,0 +1,2 @@
+BookList inherits ListApiviews from frame_rest.generics
+BookCreate inherits CreateApiviews from generics.retriveapiviews
