@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics, filters
+from django_filters import rest_framework
 from .models import Book, Author
 from .serializers import BookSerializer, AuthorSerializer
 from rest_framework.response import Response
