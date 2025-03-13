@@ -13,7 +13,7 @@ class ListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['title', 'author__name']
+    search_fields = ['title', 'author__name', 'publication_year']
     ordering_fields = ['title', 'published_date']
     permission_classes = [IsAuthenticatedOrReadOnly]
 
