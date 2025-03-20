@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
 
 class PostForm(forms.ModelForm):
@@ -18,3 +18,18 @@ class PostForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+
+class CommentForm(forms.ModelForm):
+    class meta:
+        model = Comment
+        feilds = "content"
+
+    def clean_content(self):
+        # Custom validation for content field
+        content = self.cleaned_data.get('content')
+        if not content or content.strip() == "":
+            raise forms.ValidationError("Content cannot be empty.")
+        if len(content) < 10:
+            raise forms.ValidationError("Comment is too short. Please write at least 10 characters.")
+        return content
