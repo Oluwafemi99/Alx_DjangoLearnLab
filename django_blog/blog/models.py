@@ -9,3 +9,19 @@ class Post(models.Model):
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+
+    def __str__(self):
+        return self.title
+
+
+class UserProfile(models.Model):
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    bio = models.TextField(max_length=220)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # user = User.objects.get(user)
+    # user.set_password('password')
+    # user.save()
+
+    def __str__(self):
+        return self.user.username
