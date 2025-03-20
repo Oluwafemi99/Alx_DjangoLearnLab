@@ -7,6 +7,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import UserProfile
+from rest_framework import generics
+from .models import Post
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 # Create your views here.
 
@@ -29,7 +33,7 @@ class CustomUserCreationForm(UserCreationForm):
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
-    template_name = 'blog/register.html'
+    template_name = 'register.html'
 
 
 # Access to only users with login details
@@ -65,3 +69,32 @@ def profile_view(request):
         "bio": user_profile.bio,
         "profile_picture": user_profile.profile_picture,
     })
+
+
+class Listviews(generics.ListAPIView):
+    queryset = Post.objects.all()
+    permission_classes = IsAuthenticated
+    template_name = 'list.html'
+
+
+class DetailView(generics.RetrieveAPIView):
+    queryset = Post.objects.all()
+    permission_classes = IsAuthenticated
+    template_name = 'detail.html'
+
+
+class CreateView(generics.CreateAPIView, LoginRequiredMixin):
+    queryset = Post.objects.all()
+    permission_classes = []
+    template_name = 'form.html'
+
+
+class UpdateView(generics.UpdateAPIView, LoginRequiredMixin, UserPassesTestMixin):
+    queryset = Post.objects.all()
+    permission_classes = []
+    template_name = 'form.html'
+
+
+class DeleteView(generics.DestroyAPIView, LoginRequiredMixin, UserPassesTestMixin):
+    queryset = Post.objects.all()
+    permission_classes = IsAuthenticated
