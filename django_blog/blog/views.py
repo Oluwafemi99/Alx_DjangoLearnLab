@@ -74,27 +74,28 @@ def profile_view(request):
 class ListView(generics.ListAPIView):
     queryset = Post.objects.all()
     permission_classes = IsAuthenticated
-    template_name = 'list.html'
+    template_name = 'post_list.html'
 
 
 class DetailView(generics.RetrieveAPIView):
     queryset = Post.objects.all()
     permission_classes = IsAuthenticated
-    template_name = 'detail.html'
+    template_name = 'post_detail.html'
 
 
 class CreateView(generics.CreateAPIView, LoginRequiredMixin):
     queryset = Post.objects.all()
     permission_classes = []
-    template_name = 'form.html'
+    template_name = 'post_create.html'
 
 
 class UpdateView(generics.UpdateAPIView, LoginRequiredMixin, UserPassesTestMixin):
     queryset = Post.objects.all()
     permission_classes = []
-    template_name = 'form.html'
+    template_name = 'post_update.html'
 
 
 class DeleteView(generics.DestroyAPIView, LoginRequiredMixin, UserPassesTestMixin):
     queryset = Post.objects.all()
     permission_classes = IsAuthenticated
+    template_name = 'post_delete.html'
