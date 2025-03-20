@@ -13,7 +13,7 @@ urlpatterns = [
     path('post/', Listviews.as_view(template_name='list.html'), name='post'),
     path('post/new/', CreateView.as_view(template_name='form.html'), name='posts-new'),
     path('post/<int:pk>/', DetailView.as_view(template_name='detail.html'), name='post-detail'),
-    path('post/<int:pk>/update', UpdateView.as_view(template_name='form.html'), name='post-edit'),
+    path('post/<int:pk>/update/', UpdateView.as_view(template_name='form.html'), name='post-edit'),
     path('post/<int:pk>/delete/', DeleteView.as_view(), name='post-delete')
 ]
 
