@@ -71,7 +71,7 @@ def profile_view(request):
     })
 
 
-class Listviews(generics.ListAPIView):
+class ListView(generics.ListAPIView):
     queryset = Post.objects.all()
     permission_classes = IsAuthenticated
     template_name = 'list.html'
