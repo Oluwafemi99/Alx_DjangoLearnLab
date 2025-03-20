@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
-from .views import SignUpView, profile_view, Listviews, CreateView, DetailView, DeleteView, UpdateView
+from .views import SignUpView, profile_view, ListView, CreateView, DetailView, DeleteView, UpdateView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -10,7 +10,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('register/', SignUpView.as_view(template_name='register.html'), name='register'),
     path('profile/', profile_view, name='profle'),
-    path('post/', Listviews.as_view(template_name='list.html'), name='post'),
+    path('post/', ListView.as_view(template_name='list.html'), name='post'),
     path('post/new/', CreateView.as_view(template_name='form.html'), name='posts-new'),
     path('post/<int:pk>/', DetailView.as_view(template_name='detail.html'), name='post-detail'),
     path('post/<int:pk>/update/', UpdateView.as_view(template_name='form.html'), name='post-edit'),
