@@ -10,13 +10,12 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('register/', SignUpView.as_view(template_name='register.html'), name='register'),
     path('profile/', profile_view, name='profle'),
-    path('posts/', Listviews.as_view(template_name='list.html'), name='post'),
-    path('posts/new/', CreateView.as_view(template_name='form.html'), name='posts-new'),
-    path('posts/<int:pk>/', DetailView.as_view(template_name='detail.html'), name='post-detail'),
-    path('posts/<int:pk>/edit', UpdateView.as_view(template_name='form.html'), name='post-edit'),
-    path('posts/<int:pk>/delete/', DeleteView.as_view(), name='post-delete')
+    path('post/', Listviews.as_view(template_name='list.html'), name='post'),
+    path('post/new/', CreateView.as_view(template_name='form.html'), name='posts-new'),
+    path('post/<int:pk>/', DetailView.as_view(template_name='detail.html'), name='post-detail'),
+    path('post/<int:pk>/edit', UpdateView.as_view(template_name='form.html'), name='post-edit'),
+    path('post/<int:pk>/delete/', DeleteView.as_view(), name='post-delete')
 ]
-
 
 # if settings.DEBUG:
 #    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
