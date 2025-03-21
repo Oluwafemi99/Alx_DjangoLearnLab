@@ -1,5 +1,7 @@
 from django import forms
 from .models import Post, Comment
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 
 class PostForm(forms.ModelForm):
@@ -33,3 +35,18 @@ class CommentForm(forms.ModelForm):
         if len(content) < 10:
             raise forms.ValidationError("Comment is too short. Please write at least 10 characters.")
         return content
+
+
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = '__all__'
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data["email"]
+        if commit:
+            user.save()
+        return user
