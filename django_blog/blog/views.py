@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -8,9 +8,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import UserProfile
 from rest_framework import generics
-from .models import Post
+from .models import Post, Comment
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .forms import CommentForm
 
 # Create your views here.
 
@@ -99,3 +100,37 @@ class DeleteView(generics.DestroyAPIView, LoginRequiredMixin, UserPassesTestMixi
     queryset = Post.objects.all()
     permission_classes = IsAuthenticated
     template_name = 'post_delete.html'
+
+
+@login_required
+def comment_detail(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    comments = post.comments.all()  # Retrieve all comments related to the post
+    form = CommentForm()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user  # Set the logged-in user as the author
+            comment.post = post  # Associate the comment with the current post
+            comment.save()
+            return redirect('post_detail', post_id=post.id)
+
+    return render(request, 'comment_detail.html', {
+        'post': post,
+        'comments': comments,
+        'form': form
+    })
+
+
+class CommentEditView(generics.UpdateAPIView, LoginRequiredMixin, UserPassesTestMixin):
+    model = Comment
+    feilds = 'content'
+    template_name = 'comment_update.html'
+
+
+class CommentDeleteView(generics.UpdateAPIView, LoginRequiredMixin, UserPassesTestMixin):
+    model = Comment
+    feilds = 'content'
+    template_name = 'comment_delete.html'

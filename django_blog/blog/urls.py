@@ -1,9 +1,9 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
-from .views import SignUpView, profile_view, ListView, CreateView, DetailView, DeleteView, UpdateView
-from django.conf import settings
-from django.conf.urls.static import static
+from .views import (SignUpView, profile_view, ListView, CreateView, DetailView,
+                    DeleteView, UpdateView, comment_detail,
+                    CommentEditView, CommentDeleteView)
 
 urlpatterns = [
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
@@ -15,6 +15,9 @@ urlpatterns = [
     path('post/<int:pk>/', DetailView.as_view(template_name='post_detail.html'), name='post-detail'),
     path('post/<int:pk>/update/', UpdateView.as_view(template_name='post_update.html'), name='post-edit'),
     path('post/<int:pk>/delete/', DeleteView.as_view(template_name='post_delete.html'), name='post-delete'),
+    path('posts/<int:post_id>/comments/new/', comment_detail(template_name='comment_detail.html'), name='comments/new'),
+    path('posts/<int:post_id>/comments/<int:pk>/edit/', CommentEditView.as_view(template_name='comment_update.html'), name='comment/edit'),
+    path('posts/<int:post_id>/comments/<int:pk>/delete/', CommentDeleteView.as_view(template_name='comment_delete.html'), name='comment/delete')
 ]
 
 # if settings.DEBUG:
