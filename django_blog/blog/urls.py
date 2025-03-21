@@ -23,6 +23,3 @@ urlpatterns = [
     path("tags/<slug:tag_slug>/", PostByTagListView.as_view(template_name='post_by_tag.html'), name='post_by_tag'),
     path('search/', PostSearchView.as_view(template_name='search_results.html'), name='search_posts'),
 ]
-
-# if settings.DEBUG:
-#    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
