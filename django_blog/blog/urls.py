@@ -20,6 +20,6 @@ urlpatterns = [
     path('comment/<int:pk>/update/', CommentUpdateView.as_view(template_name='comment_update.html'), name='comment/edit'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(template_name='comment_delete.html'), name='comment/delete'),
     path('search/<int:pk>/result/', PostSearchView.as_view(template_name='search_results.html'), name='post_search'),
-    path("tags/<slug:tag_slug>/", PostByTagListView.as_view(template_name='post_by_tag.html'), name='post_by_tag'),
+    path("tags/<slug:tag_slug>/", PostByTagListView.as_view(), name='post_by_tag'),
     path('search/', PostSearchView.as_view(template_name='search_results.html'), name='search_posts'),
 ]
