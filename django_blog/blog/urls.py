@@ -3,7 +3,8 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
 from .views import (SignUpView, profile_view, ListView, CreateView, DetailView,
                     DeleteView, UpdateView, CommentCreateView,
-                    CommentUpdateView, CommentDeleteView)
+                    CommentUpdateView, CommentDeleteView, PostSearchView,
+                    PostsByTagView, PostSearchView)
 
 urlpatterns = [
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
@@ -17,7 +18,10 @@ urlpatterns = [
     path('post/<int:pk>/delete/', DeleteView.as_view(template_name='post_delete.html'), name='post-delete'),
     path('post/<int:pk>/comments/new/', CommentCreateView, name='comment_create'),
     path('comment/<int:pk>/update/', CommentUpdateView.as_view(template_name='comment_update.html'), name='comment/edit'),
-    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(template_name='comment_delete.html'), name='comment/delete')
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(template_name='comment_delete.html'), name='comment/delete'),
+    path('search/<int:pk>/result/', PostSearchView.as_view(template_name='search_results.html'), name='post_search'),
+    path('tags/<tag_slug>/', PostsByTagView.as_view(template_name='posts_by_tag.html'), name='posts_by_tag'),
+    path('search/', PostSearchView.as_view(template_name='search_results.html'), name='search_posts'),
 ]
 
 # if settings.DEBUG:

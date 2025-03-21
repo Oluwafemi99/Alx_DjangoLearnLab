@@ -6,29 +6,15 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import UserProfile
+from .models import UserProfile, Tag
 from rest_framework import generics
 from .models import Post, Comment
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .forms import CommentForm
+from .forms import CommentForm, CustomUserCreationForm
+from django.db.models import Q
 
 # Create your views here.
-
-
-class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-
-    class Meta:
-        model = User
-        fields = '__all__'
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.email = self.cleaned_data["email"]
-        if commit:
-            user.save()
-        return user
 
 
 class SignUpView(CreateView):
@@ -134,3 +120,41 @@ class CommentDeleteView(generics.UpdateAPIView, LoginRequiredMixin, UserPassesTe
     model = Comment
     feilds = 'content'
     template_name = 'comment_delete.html'
+
+
+class PostSearchView(generics.ListAPIView):
+    model = Post
+    template_name = 'search_results.html'
+    context_object_name = 'results'  # Use 'results' to access the filtered posts in the template
+
+    def get_queryset(self):
+        query = self.request.GET.get('q', '')  # Get the search term from the query parameters
+        queryset = Post.objects.all()  # Start with all posts
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) |  # Case-insensitive search in the title
+                Q(content__icontains=query) |  # Case-insensitive search in the content
+                Q(tags__name__icontains=query)  # Search in tags (requires django-taggit)
+            ).distinct()  # Ensure no duplicate results if multiple fields match
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q', '')  # Pass the search term to the template
+        return context
+
+
+class PostsByTagView(generics.ListAPIView):
+    model = Post
+    template_name = 'posts_by_tag.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag_slug = self.kwargs['slug']
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        return Post.objects.filter(tags__in=[tag]).distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = get_object_or_404(Tag, slug=self.kwargs['slug'])
+        return context

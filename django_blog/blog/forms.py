@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content']  # Only include these fields in the form
+        fields = ['title', 'content', 'tags']  # Only include these fields in the form
 
     def save(self, commit=True, user=None):
         """

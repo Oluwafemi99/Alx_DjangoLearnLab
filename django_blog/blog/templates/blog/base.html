@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Django Blog{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<form method="GET" action="{% url 'search_posts' %}">
+    {% csrf_token %}
+    <input type="text" name="q" placeholder="Search posts..." required>
+    <button type="submit">Search</button>
+</form>
 </head>
 <body>
     <header>
@@ -31,3 +36,4 @@
     <script src="{% static 'js/scripts.js' %}"></script>
 </body>
 </html>
+
