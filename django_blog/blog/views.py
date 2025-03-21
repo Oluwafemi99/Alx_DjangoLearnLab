@@ -144,7 +144,7 @@ class PostSearchView(generics.ListAPIView):
         return context
 
 
-class PostsByTagView(generics.ListAPIView):
+class PostByTagListView(generics.ListAPIView):
     model = Post
     template_name = 'posts_by_tag.html'
     context_object_name = 'posts'
