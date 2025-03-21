@@ -10,7 +10,7 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'content', 'tags']  # Only include these fields in the form
         widgets = {
-            'tags': TagWidget(attrs={'placeholder': 'Add tags here'}),
+            'tags': TagWidget(),
         }
 
     def save(self, commit=True, user=None):
