@@ -103,7 +103,7 @@ class DeleteView(generics.DestroyAPIView, LoginRequiredMixin, UserPassesTestMixi
 
 
 @login_required
-def comment_detail(request, post_id):
+def CommentCreateView(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     comments = post.comments.all()  # Retrieve all comments related to the post
     form = CommentForm()
@@ -124,7 +124,7 @@ def comment_detail(request, post_id):
     })
 
 
-class CommentEditView(generics.UpdateAPIView, LoginRequiredMixin, UserPassesTestMixin):
+class CommentUpdateView(generics.UpdateAPIView, LoginRequiredMixin, UserPassesTestMixin):
     model = Comment
     feilds = 'content'
     template_name = 'comment_update.html'
