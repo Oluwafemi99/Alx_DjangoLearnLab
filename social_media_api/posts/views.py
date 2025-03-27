@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from rest_framework import viewsets ,generics
+from rest_framework import viewsets, generics
 from .models import Post, Comment
 from . serializers import PostSerializer, CommentSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions
 from .permissions import IsAuthorOrReadOnly
 from .pagination import PostPagination, CommentPagination
 from rest_framework.filters import SearchFilter
@@ -13,7 +13,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 class PostView(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
     pagination_class = PostPagination
     filter_backends = [DjangoFilterBackend, SearchFilter]
     SearchFilter = ['title', 'content']
@@ -22,12 +22,12 @@ class PostView(viewsets.ModelViewSet):
 class CommentView(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
     pagination_class = CommentPagination
 
 
 class FeedView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostSerializer
 
     # Class-based view to generate a feed of posts from users the current user follows.
