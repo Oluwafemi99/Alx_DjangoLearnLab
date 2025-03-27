@@ -7,7 +7,6 @@ from .permissions import IsAuthorOrReadOnly
 from .pagination import PostPagination, CommentPagination
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from django.shortcuts import generics
 from rest_framework.response import Response
 from notifications.models import Notification
 from django.contrib.contenttypes.models import ContentType
