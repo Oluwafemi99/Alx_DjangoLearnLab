@@ -7,7 +7,7 @@ from .permissions import IsAuthorOrReadOnly
 from .pagination import PostPagination, CommentPagination
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from django.shortcuts import get_object_or_404
+from django.shortcuts import generics
 from rest_framework.response import Response
 from notifications.models import Notification
 from django.contrib.contenttypes.models import ContentType
@@ -51,13 +51,13 @@ class LikePostView(generics.GenericAPIView):
     queryset = Like.objects.all()
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, post_id):
-        post = get_object_or_404(Post, id=post_id)
+    def post(self, request, pk):
+        post = generics.get_object_or_404(Post, pk=pk)
 
         # Check if the user has already liked the post
         if Like.objects.filter(user=request.user, post=post).exists():
             return Response({'error': 'you already liked this post'})
-        Like.objects.create(user=request.user, post=post)
+        Like.objects.get_or_create(user=request.user, post=post)
 
         # generate a notification
         Notification.objects.create(
@@ -73,8 +73,8 @@ class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Like.objects.all()
 
-    def post(self, request, post_id):
-        post = get_object_or_404(Post, id=post_id)
+    def post(self, request, pk):
+        post = generics.get_object_or_404(Post, pk=pk)
 
         # Check if the user has liked the post
         like = Like.objects.filter(user=request.user, post=post).first()
