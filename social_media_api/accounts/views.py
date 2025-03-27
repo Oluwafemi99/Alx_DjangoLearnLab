@@ -6,6 +6,7 @@ from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from notifications.models import Notification
 
 
 # Create your views here.
@@ -32,6 +33,9 @@ class FollowUserView(generics.GenericAPIView):
         if follow_user == request.user:
             return Response({'error': 'you cannt follow yourself'}, status=400)
         request.user.following.add(follow_user)
+
+        # generate a solution
+        Notification.objects.create(recipient=follow_user, actor=request.user, verb='started following you')
         return Response(f'you are now following {username}', status=200)
 
 
