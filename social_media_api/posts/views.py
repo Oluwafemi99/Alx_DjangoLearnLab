@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets ,generics
 from .models import Post, Comment
 from . serializers import PostSerializer, CommentSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -24,3 +24,15 @@ class CommentView(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
     pagination_class = CommentPagination
+
+
+class FeedView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
+
+    # Class-based view to generate a feed of posts from users the current user follows.
+    # The posts are ordered by creation date, with the most recent posts at the top.
+    def get_queryset(self):
+        # Get the users the current user is following
+        following_users = self.request.user.following.all()
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')
