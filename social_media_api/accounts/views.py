@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from .serializers import CustomUserSerializer
 from .models import CustomUser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -14,7 +14,7 @@ class SignUpView(generics.CreateAPIView):
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):
-    authentication_classes = [IsAuthenticated]
+    authentication_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
@@ -24,7 +24,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
 class FollowUserView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     # view to allow user to follow another user
     def post(self, request, username):
@@ -37,7 +37,7 @@ class FollowUserView(generics.GenericAPIView):
 
 class UnfollowUserView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, username):
         unfollow_user = get_object_or_404(CustomUser, username)
