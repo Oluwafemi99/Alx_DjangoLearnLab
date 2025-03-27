@@ -22,7 +22,8 @@ class ProfileView(generics.RetrieveUpdateAPIView):
         return self.request.user
 
 
-class FollowUserView(APIView):
+class FollowUserView(generics.GenericAPIView):
+    queryset = CustomUser.objects.all()
     permission_classes = [IsAuthenticated]
 
     # view to allow user to follow another user
@@ -34,7 +35,8 @@ class FollowUserView(APIView):
         return Response(f'you are now following {username}', status=200)
 
 
-class UnfollowUserView(APIView):
+class UnfollowUserView(generics.GenericAPIView):
+    queryset = CustomUser.objects.all()
     permission_classes = [IsAuthenticated]
 
     def post(self, request, username):
