@@ -141,3 +141,14 @@ CSRF_COOKIE_SECURE = True  # Ensures CSRF cookies are only sent over HTTPS
 SECURE_HSTS_SECONDS = 31536000  # Enables HTTP Strict Transport Security (HSTS)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Applies HSTS to all subdomains
 SECURE_HSTS_PRELOAD = True  # Allows the site to be preloaded by browsers
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.1/howto/static-files/
+
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Directory where static files will be collected
+
+# Media files (if applicable)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'mediafiles'  # Directory where media files will be stored
