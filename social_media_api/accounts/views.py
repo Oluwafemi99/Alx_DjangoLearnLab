@@ -34,7 +34,7 @@ class FollowUserView(generics.GenericAPIView):
             return Response({'error': 'you cannt follow yourself'}, status=400)
         request.user.following.add(follow_user)
 
-        # generate a solution
+        # generate a notification for following
         Notification.objects.create(recipient=follow_user, actor=request.user, verb='started following you')
         return Response(f'you are now following {username}', status=200)
 
